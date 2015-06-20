@@ -7,7 +7,7 @@ main ()
 {
    document_t document;
    document.emplace_back (0);
-   document.emplace_back (1);
+   document.emplace_back (std::string ("Hello!"));
    document.emplace_back (2);
    document.emplace_back (3);
 
