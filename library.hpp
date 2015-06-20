@@ -18,14 +18,12 @@ public:
    object_t (const int & x) :
       self_ (new int_model_t (x))
    {
-      std::cout << "ctor" << std::endl;
    }
 
    // must supply a copy constructor since parts are 'remote'
    object_t (const object_t & x) :
       self_ (new int_model_t (*x.self_))
    {
-      std::cout << "copy" << std::endl;
    }
 
    // add move constructor to get move behavior
