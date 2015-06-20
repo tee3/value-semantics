@@ -15,8 +15,8 @@ draw (const int & x, std::ostream & out, std::size_t position)
 class object_t
 {
 public:
-   object_t (const int & x) :
-      self_ (new int_model_t (x))
+   object_t (int x) :
+      self_ (new int_model_t (std::move (x)))
    {
    }
 
@@ -51,8 +51,8 @@ public:
 private:
    struct int_model_t
    {
-      int_model_t (const int & x) :
-         data_ (x)
+      int_model_t (int x) :
+         data_ (std::move (x))
       {
       }
 
