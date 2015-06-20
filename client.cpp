@@ -15,13 +15,27 @@ draw (const my_class_t & x, std::ostream & out, std::size_t position)
 int
 main ()
 {
-   document_t document;
-   document.emplace_back (0);
-   document.emplace_back (std::string ("Hello!"));
-   document.emplace_back (document);
-   document.emplace_back (my_class_t ());
+   history_t h (1);
 
-   draw (document,std::cout,0);
+   current (h).emplace_back (0);
+   current (h).emplace_back (std::string ("Hello!"));
+
+   draw (current (h),std::cout,0);
+   std::cout << "---------------------------------" << std::endl;
+
+   commit (h);
+
+   current (h)[0] = 42.5;
+   current (h)[1] = std::string ("World");
+   current (h).emplace_back (current (h));
+   current (h).emplace_back (my_class_t ());
+
+   draw (current (h),std::cout,0);
+   std::cout << "---------------------------------" << std::endl;
+
+   undo (h);
+
+   draw (current (h),std::cout,0);
 
    return 0;
 }

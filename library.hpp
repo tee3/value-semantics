@@ -6,6 +6,8 @@
 
 #include <cstddef>
 
+#include <cassert>
+
 template<typename T>
 void
 draw (const T & x, std::ostream & out, std::size_t position)
@@ -26,6 +28,7 @@ public:
    object_t (const object_t & x) :
       self_ (x.self_->copy_ ())
    {
+      std::cout << "copy" << std::endl;
    }
 
    // add move constructor to get move behavior
@@ -102,6 +105,29 @@ draw (const document_t & x, std::ostream & out, std::size_t position)
       draw (e,std::cout,position + 2);
    }
    out << std::string (position,' ') << "</document>" << std::endl;
+}
+
+using history_t = std::vector<document_t>;
+
+void
+commit (history_t & x)
+{
+   assert (x.size () > 0);
+   x.push_back (x.back ());
+}
+
+void
+undo (history_t & x)
+{
+   assert (x.size () > 0);
+   x.pop_back ();
+}
+
+document_t &
+current (history_t & x)
+{
+   assert (x.size () > 0);
+   return x.back ();
 }
 
 // Local variables:
