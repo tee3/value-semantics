@@ -29,10 +29,7 @@ public:
    }
 
    // add move constructor to get move behavior
-   object_t (object_t && x) :
-      self_ (std::move (x.self_))
-   {
-   }
+   object_t (object_t && x) noexcept = default;
 
    // pass sink arguments by value and swap or move into place
    object_t &
