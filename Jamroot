@@ -7,4 +7,5 @@ project
 
 run client.cpp ;
 
+explicit exp ;
 run exp.cpp ;

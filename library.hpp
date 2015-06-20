@@ -28,6 +28,12 @@ public:
       std::cout << "copy" << std::endl;
    }
 
+   // add move constructor to get move behavior
+   object_t (object_t && x) :
+      self_ (std::move (x.self_))
+   {
+   }
+
    // pass sink arguments by value and swap or move into place
    object_t &
    operator= (object_t x) noexcept
