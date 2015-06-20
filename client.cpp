@@ -2,6 +2,16 @@
 
 #include "library.hpp"
 
+class my_class_t
+{
+};
+
+void
+draw (const my_class_t & x, std::ostream & out, std::size_t position)
+{
+   out << std::string (position,' ') << "my_class_t" << std::endl;
+}
+
 int
 main ()
 {
@@ -9,7 +19,7 @@ main ()
    document.emplace_back (0);
    document.emplace_back (std::string ("Hello!"));
    document.emplace_back (2);
-   document.emplace_back (3);
+   document.emplace_back (my_class_t ());
 
    draw (document,std::cout,0);
 
