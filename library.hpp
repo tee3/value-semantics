@@ -6,14 +6,9 @@
 
 #include <cstddef>
 
+template<typename T>
 void
-draw (const int & x, std::ostream & out, std::size_t position)
-{
-   out << std::string (position,' ') << x << std::endl;
-}
-
-void
-draw (const std::string & x, std::ostream & out, std::size_t position)
+draw (const T & x, std::ostream & out, std::size_t position)
 {
    out << std::string (position,' ') << x << std::endl;
 }
@@ -21,12 +16,9 @@ draw (const std::string & x, std::ostream & out, std::size_t position)
 class object_t
 {
 public:
-   object_t (std::string x) :
-      self_ (new string_model_t (std::move (x)))
-   {
-   }
-   object_t (int x) :
-      self_ (new int_model_t (std::move (x)))
+   template<typename T>
+   object_t (T x) :
+      self_ (new model<T> (std::move (x)))
    {
    }
 
@@ -73,9 +65,10 @@ private:
       draw_ (std::ostream & out, std::size_t position) const = 0;
    };
 
-   struct string_model_t : concept_t
+   template<typename T>
+   struct model : concept_t
    {
-      string_model_t (std::string x) :
+      model (T x) :
          data_ (std::move (x))
       {
       }
@@ -83,7 +76,7 @@ private:
       concept_t *
       copy_ () const
       {
-         return new string_model_t (*this);
+         return new model (*this);
       }
 
       void
@@ -92,29 +85,7 @@ private:
          draw (data_,out,position);
       }
 
-      std::string data_;
-   };
-
-   struct int_model_t : concept_t
-   {
-      int_model_t (int x) :
-         data_ (std::move (x))
-      {
-      }
-
-      concept_t *
-      copy_ () const
-      {
-         return new int_model_t (*this);
-      }
-
-      void
-      draw_ (std::ostream & out, std::size_t position) const
-      {
-         draw (data_,out,position);
-      }
-
-      int data_;
+      T data_;
    };
 
    std::unique_ptr<concept_t> self_;
