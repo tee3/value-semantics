@@ -20,29 +20,9 @@ class object_t
 public:
    template<typename T>
    object_t (T x) :
-      self_ (new model<T> (std::move (x)))
+      self_ (std::make_shared<model<T>> (std::move (x)))
    {
    }
-
-   // must supply a copy constructor since parts are 'remote'
-   object_t (const object_t & x) :
-      self_ (x.self_->copy_ ())
-   {
-      std::cout << "copy" << std::endl;
-   }
-
-   // add move constructor to get move behavior
-   object_t (object_t && x) noexcept = default;
-
-   object_t &
-   operator= (const object_t & x)
-   {
-      object_t tmp (x);
-      *this = std::move (tmp);
-      return *this;
-   }
-   object_t &
-   operator= (object_t && x) noexcept = default;
 
    friend
    void
@@ -60,10 +40,6 @@ private:
       ~concept_t () = default;
 
       virtual
-      concept_t *
-      copy_ () const = 0;
-
-      virtual
       void
       draw_ (std::ostream & out, std::size_t position) const = 0;
    };
@@ -76,12 +52,6 @@ private:
       {
       }
 
-      concept_t *
-      copy_ () const
-      {
-         return new model (*this);
-      }
-
       void
       draw_ (std::ostream & out, std::size_t position) const
       {
@@ -91,7 +61,7 @@ private:
       T data_;
    };
 
-   std::unique_ptr<concept_t> self_;
+   std::shared_ptr<const concept_t> self_;
 };
 
 using document_t = std::vector<object_t>;
