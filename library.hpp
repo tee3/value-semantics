@@ -20,6 +20,21 @@ public:
    {
    }
 
+   // must supply a copy constructor since parts are 'remote'
+   object_t (const object_t & x) :
+      self_ (new int_model_t (*x.self_))
+   {
+   }
+
+   // must supply an assignment operator too
+   object_t &
+   operator= (const object_t & x)
+   {
+      object_t tmp (x);
+      self_ = std::move (tmp.self_);
+      return *this;
+   }
+
    friend
    void
    draw (const object_t & x,
