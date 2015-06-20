@@ -18,7 +18,7 @@ main ()
    document_t document;
    document.emplace_back (0);
    document.emplace_back (std::string ("Hello!"));
-   document.emplace_back (2);
+   document.emplace_back (document);
    document.emplace_back (my_class_t ());
 
    draw (document,std::cout,0);
