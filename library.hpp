@@ -28,12 +28,11 @@ public:
       std::cout << "copy" << std::endl;
    }
 
-   // must supply an assignment operator too
+   // pass sink arguments by value and swap or move into place
    object_t &
-   operator= (const object_t & x)
+   operator= (object_t x) noexcept
    {
-      object_t tmp (x);
-      self_ = std::move (tmp.self_);
+      self_ = std::move (x.self_);
       return *this;
    }
 
