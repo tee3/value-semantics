@@ -1,0 +1,8 @@
+import testing ;
+
+project
+  : requirements
+     <cxxflags>-std=c++14
+  ;
+
+run client.cpp ;
